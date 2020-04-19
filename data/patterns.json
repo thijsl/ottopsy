@@ -1,0 +1,475 @@
+[
+   {
+      "name": "player",
+      "types": [
+         {
+            "name": "hls.js",
+            "patterns": [
+               {
+                  "key": "hls.js",
+                  "weight": 0.8
+               }
+            ]
+         },
+         {
+            "name": "THEOplayer",
+            "patterns": [
+               {
+                  "key": "THEOplayer",
+                  "weight": 0.5
+               },
+               {
+                  "key": "THEOplayer.js",
+                  "weight": 0.7
+               }
+            ]
+         },
+         {
+            "name": "dash.js",
+            "patterns": [
+               {
+                  "key": "dash.js",
+                  "weight": 0.8
+               }
+            ]
+         },
+         {
+            "name": "Bitmovin",
+            "patterns": [
+               {
+                  "key": "bitmovin",
+                  "weight": 0.5
+               },
+               {
+                  "key": "bitmovinplayer.js",
+                  "value": 0.7
+               }
+            ]
+         },
+         {
+            "name": "Shaka",
+            "patterns": [
+               {
+                  "key": "shaka",
+                  "weight": 0.5
+               },
+               {
+                  "key": "shaka-player",
+                  "value": 0.7
+               }
+            ]
+         },
+         {
+            "name": "JW Player",
+            "patterns": [
+               {
+                  "key": "jwplayer",
+                  "weight": 0.5
+               }
+            ]
+         },
+         {
+            "name": "Video.js",
+            "patterns": [
+               {
+                  "key": "video.js",
+                  "weight": 0.5
+               }
+            ]
+         },
+         {
+            "name": "Kwikplayer",
+            "patterns": [
+               {
+                  "key": "player.kwikmotion.com",
+                  "weight": 0.8
+               },
+               {
+                  "key": "kwik",
+                  "weight": 0.5
+               }
+            ]
+         },
+         {
+            "name": "Mangomolo",
+            "patterns": [
+               {
+                  "key": "mangomolo",
+                  "weight": 0.8
+               }
+            ]
+         },
+         {
+            "name": "MediaElementJS",
+            "patterns": [
+               {
+                  "key": "mediaelement",
+                  "weight": 0.8
+               }
+            ]
+         }
+      ]
+   },
+   {
+      "name": "abrProtocol",
+      "types": [
+         {
+            "name": "hls",
+            "patterns": [
+               {
+                  "key": "m3u",
+                  "weight": 0.6
+               },
+               {
+                  "key": ".m3u",
+                  "weight": 0.8
+               }
+            ]
+         },
+         {
+            "name": "dash",
+            "patterns": [
+               {
+                  "key": "mpd",
+                  "weight": 0.6
+               },
+               {
+                  "key": ".mpd",
+                  "weight": 0.8
+               }
+            ]
+         }
+      ]
+   },
+   {
+      "name": "analytics",
+      "types": [
+         {
+            "name": "conviva",
+            "patterns": [
+               {
+                  "key": "conviva",
+                  "weight": 0.6
+               },
+               {
+                  "key": "conviva.com",
+                  "weight": 0.8
+               }
+            ]
+         },
+         {
+            "name": "youbora",
+            "patterns": [
+               {
+                  "key": "youbora",
+                  "weight": 0.8
+               }
+            ]
+         },
+         {
+            "name": "StreamOne",
+            "patterns": [
+               {
+                  "key": "analytics.streamone.net",
+                  "weight": 0.8
+               }
+            ]
+         },
+         {
+            "name": "Google Analytics",
+            "patterns": [
+               {
+                  "key": "google-analytics.com/collect",
+                  "weight": 0.3
+               }
+            ]
+         },
+         {
+            "name": "Mux",
+            "patterns": [
+               {
+                  "key": "mux.com",
+                  "weight": 0.7
+               }
+            ]
+         },
+         {
+            "name": "MediaMelon",
+            "patterns": [
+               {
+                  "key": "mediamelon",
+                  "weight": 0.3
+               }
+            ]
+         },
+         {
+            "name": "Adobe Heartbeat",
+            "patterns": [
+               {
+                  "key": "omtrdc.net",
+                  "weight": 0.6
+               }
+            ]
+         },
+         {
+            "name": "Chartbeat",
+            "patterns": [
+               {
+                  "key": "chartbeat.net",
+                  "weight": 0.6
+               }
+            ]
+         },
+         {
+            "name": "Ooyala",
+            "patterns": [
+               {
+                  "key": "ooyala.com",
+                  "weight": 0.5
+               }
+            ]
+         },
+         {
+           "name": "Nielsen",
+           "patterns": [
+             {
+               "key": "imrworldwide.com",
+               "weight": 0.7
+             }
+           ]
+         },
+         {
+            "name": "onthe.io",
+            "patterns": [
+               {
+                  "key": "onthe.io",
+                  "weight": 0.7
+               }
+            ]
+         },
+         {
+            "name": "Krux",
+            "patterns": [
+               {
+                  "key": "krxd.net",
+                  "weight": 0.8
+               }
+            ]
+         }
+      ]
+   },
+   {
+      "name": "ads",
+      "types": [
+         {
+            "name": "dfp",
+            "patterns": [
+               {
+                  "key": "pubads.g.doubleclick.net",
+                  "weight": 0.8
+               }
+            ]
+         },
+         {
+            "name": "spotx",
+            "patterns": [
+               {
+                  "key": "spotxchange",
+                  "weight": 0.8
+               }
+            ]
+         },
+         {
+            "name": "yospace",
+            "patterns": [
+               {
+                  "key": "yospace",
+                  "weight": 0.8
+               }
+            ]
+         },
+         {
+            "name": "freewheel",
+            "patterns": [
+               {
+                  "key": "fwmrm",
+                  "weight": 0.8
+               }
+            ]
+         }
+      ]
+   },
+   {
+      "name": "drm",
+      "types": [
+         {
+            "name": "widevine",
+            "patterns": [
+               {
+                  "key": "wvdrm",
+                  "weight": 0.6
+               },
+               {
+                  "key": "wv-drm",
+                  "weight": 0.6
+               },
+               {
+                  "key": "widevine",
+                  "weight": 0.8
+               }
+            ]
+         },
+         {
+            "name": "playready",
+            "patterns": [
+               {
+                  "key": "prdrm",
+                  "weight": 0.6
+               },
+               {
+                  "key": "pr-drm",
+                  "weight": 0.6
+               },
+               {
+                  "key": "playready",
+                  "weight": 0.8
+               }
+            ]
+         },
+         {
+            "name": "fairplay",
+            "patterns": [
+               {
+                  "key": "fpdrm",
+                  "weight": 0.6
+               },
+               {
+                  "key": "fp-drm",
+                  "weight": 0.6
+               },
+               {
+                  "key": "fairplay",
+                  "weight": 0.8
+               }
+            ]
+         },
+         {
+            "name": "buydrm",
+            "patterns": [
+               {
+                  "key": "keyos",
+                  "weight": 0.8
+               },
+               {
+                  "key": "buydrm",
+                  "weight": 0.8
+               }
+            ]
+         },
+         {
+            "name": "ezdrm",
+            "patterns": [
+               {
+                  "key": "ezdrm.com",
+                  "weight": 0.8
+               }
+            ]
+         },
+         {
+            "name": "conax",
+            "patterns": [
+               {
+                  "key": "conax.com",
+                  "weight": 0.8
+               }
+            ]
+         },
+         {
+            "name": "irdeto",
+            "patterns": [
+               {
+                  "key": "irdeto",
+                  "weight": 0.5
+               }
+            ]
+         },
+         {
+            "name": "azure",
+            "patterns": [
+               {
+                  "key": "windows.net",
+                  "weight": 0.7
+               },
+               {
+                  "key": "azure",
+                  "weight": 0.7
+               }
+            ]
+         },
+         {
+            "name": "drmtoday",
+            "patterns": [
+               {
+                  "key": "drmtoday.com",
+                  "weight": 0.8
+               }
+            ]
+         },
+         {
+            "name": "xstream",
+            "patterns": [
+               {
+                  "key": "xstream.dk",
+                  "weight": 0.8
+               }
+            ]
+         },
+         {
+            "name": "intertrust",
+            "patterns": [
+               {
+                  "key": "intertrust",
+                  "weight": 0.8
+               }
+            ]
+         },
+         {
+            "name": "axinom",
+            "patterns": [
+               {
+                  "key": "axinom.com",
+                  "weight": 0.8
+               }
+            ]
+         }
+      ]
+   },
+   {
+      "name": "packager",
+      "types": [
+         {
+            "name": "Ericsson",
+            "patterns": [
+               {
+                  "key": "vspp",
+                  "weight": 0.8
+               }
+            ]
+         }
+      ]
+   },
+   {
+      "name": "cdn",
+      "types": [
+         {
+            "name": "akamai",
+            "patterns": [
+               {
+                  "key": "akamai",
+                  "weight": 0.8
+               }
+            ]
+         }
+      ]
+   }
+]
