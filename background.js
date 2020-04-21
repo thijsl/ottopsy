@@ -15,8 +15,6 @@ chrome.runtime.onInstalled.addListener(function () {
     });
 });
 
-let components;
-
 var initiators = {};
 
 var allInitiators = {
@@ -48,96 +46,93 @@ let onBeforeRequestListener = function (details) {
     process(getHostName(getRootInitiator(details)), url);
 };
 
-function createInitiatorIfNeeded(initiators, initiator, component, type) {
-  if (!initiators[initiator]) {
-    initiators[initiator] = {};
-  }
-  if (!initiators[initiator][component.name]) {
-    initiators[initiator][component.name] = {};
-  }
-  if (!initiators[initiator][component.name][type.name]) {
-    initiators[initiator][component.name][type.name] = {status: 'unknown', url: []};
-  }
+function createInitiatorIfNeeded(initiators, initiator, product) {
+    if (!initiators[initiator]) {
+        initiators[initiator] = {};
+    }
+    if (!initiators[initiator][product.category]) {
+        initiators[initiator][product.category] = {};
+    }
+    if (!initiators[initiator][product.category][product.name]) {
+        initiators[initiator][product.category][product.name] = {status: 'unknown', url: []};
+    }
 }
 
-function isUrlNotYetAdded(initiators, initiator, component, type, url) {
-  return (initiators[initiator][component.name][type.name].url.indexOf(url) < 0);
+function isUrlNotYetAdded(initiators, initiator, product, url) {
+    return (initiators[initiator][product.category][product.name].url.indexOf(url) < 0);
 }
 
 let process = function (initiator, url) {
-
-    for (var h = 0; h < components.length; h++) {
-        let component = components[h];
-        for (var i = 0; i < component.types.length; i++) {
-            let type = component.types[i];
-            for (var j = 0; j < type.patterns.length; j++) {
-                let pattern = type.patterns[j].key;
-                let match = url.match(new RegExp(pattern, "i"));
-                if (match) {
-                    createInitiatorIfNeeded(initiators, initiator, component, type);
-                    initiators[initiator][component.name][type.name].status = true;
-                    if (isUrlNotYetAdded(initiators, initiator, component, type, url)) {
-                        if (initiators[initiator][component.name][type.name].url.length < 10) {
-                            initiators[initiator][component.name][type.name].url.push(url);
-                            chrome.storage.local.set({comps: initiators}, function () {
-                                console.log('Updated components');
-                            });
-                        } else if (type.patterns[j].weight > 0.5) {
-                            initiators[initiator][component.name][type.name].url.splice(-1, 1);
-                            initiators[initiator][component.name][type.name].url = [url].concat(initiators[initiator][component.name][type.name].url)
-                            chrome.storage.local.set({comps: initiators}, function () {
-                                console.log('Updated components');
-                            });
-                        }
-
-                        if (type.name == "dash") {
-                            fetch(url)
-                                .then(function (response) {
-                                    return response.text();
-                                })
-                                .then(function (text) {
-                                    let isUSP = text.match(new RegExp("Unified Streaming Platform", "i"));
-                                    if (isUSP) {
-                                        if (!initiators[initiator].packager) {
-                                            initiators[initiator].packager = {};
-                                        }
-                                        initiators[initiator].packager["USP"] = {"status": true};
-                                        chrome.storage.local.set({comps: initiators}, function () {
-                                            console.log('Updated components');
-                                        });
-                                    }
-                                });
-                        }
-
-                    }
-
-
+    products.forEach((product) => {
+        if (product.isMatch(url)) {
+            createInitiatorIfNeeded(initiators, initiator, product);
+            initiators[initiator][product.category][product.name].status = true;
+            if (isUrlNotYetAdded(initiators, initiator, product, url)) {
+                if (initiators[initiator][product.category][product.name].url.length < 10) {
+                    initiators[initiator][product.category][product.name].url.push(url);
+                    chrome.storage.local.set({comps: initiators}, function () {
+                        console.log('Updated components');
+                    });
                 }
+
+                if (product.name == "dash") {
+                    fetch(url)
+                        .then(function (response) {
+                            return response.text();
+                        })
+                        .then(function (text) {
+                            let isUSP = text.match(new RegExp("Unified Streaming Platform", "i"));
+                            if (isUSP) {
+                                if (!initiators[initiator].packager) {
+                                    initiators[initiator].packager = {};
+                                }
+                                initiators[initiator].packager["USP"] = {"status": true};
+                                chrome.storage.local.set({comps: initiators}, function () {
+                                    console.log('Updated components');
+                                });
+                            }
+                        });
+                }
+
             }
         }
+    });
+
+};
+
+class Product {
+    constructor(product, category) {
+        this.name = product.name;
+        this.patterns = product.patterns;
+        this.category = category;
     }
-
-};
-
-let onHeadersReceivedListener = function (details) {
-    console.log("onHeadersReceivedListener", details);
-};
-
-let onResponseStartedListener = function (details) {
-    console.log("onResponseStartedListener", details);
-};
-
-let onCompletedListener = function (details) {
-    console.log("onCompletedListener", details);
-};
+    isMatch(url) {
+        let match = false;
+        for (let i = 0; (i < this.patterns.length) && !match; i++) {
+            match = (url.indexOf(this.patterns[i].key) > -1);
+        }
+        return match;
+    }
+}
 
 const url = chrome.runtime.getURL('data/patterns.json');
+const products = [];
+function initPatterns(json) {
+    for (let i = 0; i < json.length; i++) {
+        const component = json[i];
+        const componentTypes = component.types;
+        for (let j = 0; j < componentTypes.length; j++) {
+            const componentType = componentTypes[j];
+            let product = new Product(componentType, component.name);
+            products.push(product);
+        }
+    }
+}
 
 fetch(url)
     .then((response) => response.json()) //assuming file contains json
     .then(function (json) {
-        console.log("test", json);
-        components = json;
+        initPatterns(json);
         chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeRequestListener, {urls: ["<all_urls>"]});
     });
 
