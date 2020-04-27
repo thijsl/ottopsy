@@ -455,6 +455,15 @@
                   "weight": 0.8
                }
             ]
+         },
+         {
+            "name": "USP",
+            "patterns": [
+               {
+                  "key": "Unified Streaming Platform",
+                  "weight": 0.8
+               }
+            ]
          }
       ]
    },
