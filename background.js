@@ -71,26 +71,29 @@ let process = function (initiator, url) {
                 if (initiators[initiator][product.category][product.name].url.length < 10) {
                     initiators[initiator][product.category][product.name].url.push(url);
                     chrome.storage.local.set({comps: initiators}, function () {
-                        console.log('Updated components');
+                        console.log('Updated components:', product.name, url);
                     });
                 }
 
-                if (product.name == "dash") {
+                if (product.name == "dash" || product.name == "hls") {
                     fetch(url)
                         .then(function (response) {
                             return response.text();
                         })
                         .then(function (text) {
-                            let isUSP = text.match(new RegExp("Unified Streaming Platform", "i"));
-                            if (isUSP) {
-                                if (!initiators[initiator].packager) {
-                                    initiators[initiator].packager = {};
-                                }
-                                initiators[initiator].packager["USP"] = {"status": true};
-                                chrome.storage.local.set({comps: initiators}, function () {
-                                    console.log('Updated components');
-                                });
-                            }
+                            const packagers = Product.getProductsByCategory(products, "packager");
+                            packagers.forEach((packager) => {
+                               const packagerMatch = packager.isMatch(text);
+                               if (packagerMatch) {
+                                   if (!initiators[initiator].packager) {
+                                       initiators[initiator].packager = {};
+                                   }
+                                   initiators[initiator].packager[[packager.name]] = {"status": true};
+                                   chrome.storage.local.set({comps: initiators}, function () {
+                                       console.log('Updated components:', product.name, "with", packager.name, "for", url);
+                                   });
+                               }
+                            });
                         });
                 }
 
@@ -113,26 +116,30 @@ class Product {
         }
         return match;
     }
+    static initProducts(products, json) {
+        for (let i = 0; i < json.length; i++) {
+            const component = json[i];
+            const componentTypes = component.types;
+            for (let j = 0; j < componentTypes.length; j++) {
+                const componentType = componentTypes[j];
+                let product = new Product(componentType, component.name);
+                products.push(product);
+            }
+        }
+        return products;
+    }
+    static getProductsByCategory(products, category) {
+        return products.filter((product) => {return (product.category == category)})
+    }
 }
 
 const url = chrome.runtime.getURL('data/patterns.json');
 const products = [];
-function initPatterns(json) {
-    for (let i = 0; i < json.length; i++) {
-        const component = json[i];
-        const componentTypes = component.types;
-        for (let j = 0; j < componentTypes.length; j++) {
-            const componentType = componentTypes[j];
-            let product = new Product(componentType, component.name);
-            products.push(product);
-        }
-    }
-}
 
 fetch(url)
     .then((response) => response.json()) //assuming file contains json
     .then(function (json) {
-        initPatterns(json);
+        Product.initProducts(products, json);
         chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeRequestListener, {urls: ["<all_urls>"]});
     });
 
