@@ -9,7 +9,7 @@ let babelLoader = {
         }
     }
 };
-// webpack_rules.push(babelLoader);
+webpack_rules.push(babelLoader);
 module.exports = {
     mode: "development",
     devtool: "inline-source-map",
@@ -18,7 +18,7 @@ module.exports = {
     },
     output: {
         filename: 'index.js',
-        path: __dirname + '/'
+        path: __dirname + '/extension/background/'
     },
     resolve: {
         extensions: [".js"]
