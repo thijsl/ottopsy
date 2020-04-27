@@ -8,80 +8,82 @@ export class App {
 
      constructor() {
         ChromeExtension.init();
-        this.initiators = {};
-        this.allInitiators = {};
+        this.products = [];
+        this.websites = {};
+        this.allWebsites = {};
         this.productsDatabaseUrl = chrome.runtime.getURL("data/patterns.json");
-        this.initProductsAndInitializers();
+        this.initProductsAndWebsites();
     }
 
-    initProductsAndInitializers() {
+    initProductsAndWebsites() {
          fetch(this.productsDatabaseUrl)
             .then((response) => response.json()) //assuming file contains json
             .then((json) => {
                 this.products = Product.initProducts(json);
-                this.initInitializerListeners();
+                this.initWebsiteRequestListeners();
             });
     }
 
-    initInitializerListeners() {
+    initWebsiteRequestListeners() {
         let onBeforeRequestListener = (details) => {
-            let url = details.url;
-            this.allInitiators[details.frameId] = {
+            let webRequestUrl = details.url;
+            this.allWebsites[details.frameId] = {
                 initiator: details.initiator,
                 parentFrameId: details.parentFrameId
             };
-            this.process(Util.getHostName(this.getRootInitiator(details)), url);
+            const website = Util.getHostName(this.getRootWebsite(details));
+            this.process(website, webRequestUrl);
         };
         chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeRequestListener, {urls: ["<all_urls>"]});
     }
 
-    getRootInitiator(details) {
+    getRootWebsite(details) {
         let currentParentId = details.parentFrameId;
         let currentInitiator = details.initiator;
         while (currentParentId != -1) {
-            details = this.allInitiators[currentParentId];
+            details = this.allWebsites[currentParentId];
             if (details) {
                 currentParentId = details.parentFrameId;
                 currentInitiator = details.initiator;
             } else {
-                console.warn("details is undefined at", currentParentId, this.allInitiators);
+                console.warn("details is undefined at", currentParentId, this.allWebsites);
                 currentParentId = -1;
             }
         }
         return currentInitiator;
     }
 
-    createInitiatorIfNeeded(initiators, initiator, product) {
-        if (!this.initiators[initiator]) {
-            this.initiators[initiator] = {};
+    createWebsiteIfNeeded(initiators, initiator, product) {
+        if (!this.websites[initiator]) {
+            this.websites[initiator] = {};
         }
-        if (!this.initiators[initiator][product.category]) {
-            this.initiators[initiator][product.category] = {};
+        if (!this.websites[initiator][product.category]) {
+            this.websites[initiator][product.category] = {};
         }
-        if (!this.initiators[initiator][product.category][product.name]) {
-            this.initiators[initiator][product.category][product.name] = {status: 'unknown', url: []};
+        if (!this.websites[initiator][product.category][product.name]) {
+            this.websites[initiator][product.category][product.name] = {status: 'unknown', url: []};
         }
     }
 
     isUrlNotYetAdded(initiators, initiator, product, url) {
-        return (this.initiators[initiator][product.category][product.name].url.indexOf(url) < 0);
+        return (this.websites[initiator][product.category][product.name].url.indexOf(url) < 0);
     }
 
-    process(initiator, url) {
+    process(website, webRequestUrl) {
         this.products.forEach((product) => {
-            if (product.isMatch(url)) {
-                this.createInitiatorIfNeeded(this.initiators, initiator, product);
-                this.initiators[initiator][product.category][product.name].status = true;
-                if (this.isUrlNotYetAdded(this.initiators, initiator, product, url)) {
-                    if (this.initiators[initiator][product.category][product.name].url.length < 10) {
-                        this.initiators[initiator][product.category][product.name].url.push(url);
-                        chrome.storage.local.set({comps: this.initiators}, function () {
-                            console.log('Updated components:', product.name, url);
+            if (product.isMatch(webRequestUrl)) {
+                this.createWebsiteIfNeeded(this.websites, website, product);
+                this.websites[website][product.category][product.name].status = true;
+                if (this.isUrlNotYetAdded(this.websites, website, product, webRequestUrl)) {
+                    if (this.websites[website][product.category][product.name].url.length < 10) {
+                        this.websites[website][product.category][product.name].url.push(webRequestUrl);
+                        chrome.storage.local.set({comps: this.websites}, function () {
+                            console.log('Updated components:', product.name, webRequestUrl);
                         });
                     }
 
                     if (product.name == "dash" || product.name == "hls") {
-                        fetch(url)
+                        fetch(webRequestUrl)
                             .then((response) => {
                                 return response.text();
                             })
@@ -90,12 +92,12 @@ export class App {
                                 packagers.forEach((packager) => {
                                     const packagerMatch = packager.isMatch(text);
                                     if (packagerMatch) {
-                                        if (!this.initiators[initiator].packager) {
-                                            this.initiators[initiator].packager = {};
+                                        if (!this.websites[website].packager) {
+                                            this.websites[website].packager = {};
                                         }
-                                        this.initiators[initiator].packager[[packager.name]] = {"status": true};
-                                        chrome.storage.local.set({comps: this.initiators}, function () {
-                                            console.log('Updated components:', product.name, "with", packager.name, "for", url);
+                                        this.websites[website].packager[[packager.name]] = {"status": true};
+                                        chrome.storage.local.set({comps: this.websites}, function () {
+                                            console.log('Updated components:', product.name, "with", packager.name, "for", webRequestUrl);
                                         });
                                     }
                                 });
