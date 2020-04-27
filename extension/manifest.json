@@ -1,6 +1,6 @@
 {
-  "name": "OTT Dissect",
-  "version": "0.2",
+  "name": "ottopsy",
+  "version": "0.0.1",
   "description": "Dissect the OTT solution",
   "permissions": [
     "tabs",
@@ -13,10 +13,10 @@
     "<all_urls>"
   ],
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["/background/index.js"]
   },
   "page_action": {
-    "default_popup": "popup.html",
+    "default_popup": "/page_action/popup.html",
     "default_icon": {
       "16": "images/get_started16.png",
       "32": "images/get_started32.png",
