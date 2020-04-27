@@ -1,2 +1,3 @@
 import {App} from "./App";
-App.init();
+const app = new App();
+app.init();
