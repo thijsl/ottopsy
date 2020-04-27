@@ -11,7 +11,8 @@ export class Product {
         }
         return match;
     }
-    static initProducts(products, json) {
+    static initProducts(json) {
+        const products = [];
         for (let i = 0; i < json.length; i++) {
             const component = json[i];
             const componentTypes = component.types;

@@ -2,46 +2,37 @@
 
 import {Product} from "./Product";
 import {Util} from "./Util";
+import {ChromeExtension} from "./ChromeExtension";
 
 export class App {
 
-    constructor() {
+     constructor() {
+        ChromeExtension.init();
         this.initiators = {};
         this.allInitiators = {};
-        this.products = [];
+        this.productsDatabaseUrl = chrome.runtime.getURL("data/patterns.json");
+        this.initProductsAndInitializers();
     }
 
-    init() {
-        const _self = this;
-        chrome.runtime.onInstalled.addListener(function () {
-            chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
-                chrome.declarativeContent.onPageChanged.addRules([{
-                    conditions: [new chrome.declarativeContent.PageStateMatcher({
-                        //pageUrl: {hostEquals: '*.*.*'},
-                    })],
-                    actions: [new chrome.declarativeContent.ShowPageAction()]
-                }]);
-            });
-        });
-
-        const url = chrome.runtime.getURL('data/patterns.json');
-        const products = [];
-
-        fetch(url)
+    initProductsAndInitializers() {
+         fetch(this.productsDatabaseUrl)
             .then((response) => response.json()) //assuming file contains json
             .then((json) => {
-                this.products = Product.initProducts(products, json);
-                let onBeforeRequestListener = (details) => {
-                    let url = details.url;
-                    this.allInitiators[details.frameId] = {
-                        initiator: details.initiator,
-                        parentFrameId: details.parentFrameId
-                    };
-                    this.process(Util.getHostName(this.getRootInitiator(details)), url);
-                };
-                chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeRequestListener, {urls: ["<all_urls>"]});
+                this.products = Product.initProducts(json);
+                this.initInitializerListeners();
             });
+    }
 
+    initInitializerListeners() {
+        let onBeforeRequestListener = (details) => {
+            let url = details.url;
+            this.allInitiators[details.frameId] = {
+                initiator: details.initiator,
+                parentFrameId: details.parentFrameId
+            };
+            this.process(Util.getHostName(this.getRootInitiator(details)), url);
+        };
+        chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeRequestListener, {urls: ["<all_urls>"]});
     }
 
     getRootInitiator(details) {
