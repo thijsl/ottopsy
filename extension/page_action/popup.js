@@ -14,10 +14,12 @@ function loadDataInPopup() {
             chrome.storage.local.get('comps', function (data) {
                 const element = document.querySelector('ui-treeview');
                 const result = data['comps'][getHostName(tab.url)];
-                const products = productRepresentation(result.productMatches);
-                document.querySelector('#website').textContent = result.domain;
-                copyTextToClipboard(JSON.stringify(products));
-                element.display(products);
+                if (result) {
+                    const products = productRepresentation(result.productMatches);
+                    document.querySelector('#website').textContent = result.domain;
+                    copyTextToClipboard(JSON.stringify(products));
+                    element.display(products);
+                }
             })
         }
     });
