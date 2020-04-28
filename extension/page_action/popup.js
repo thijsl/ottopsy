@@ -14,12 +14,24 @@ function loadDataInPopup() {
             chrome.storage.local.get('comps', function (data) {
                 const element = document.querySelector('ui-treeview');
                 const result = data['comps'][getHostName(tab.url)];
+                const products = productRepresentation(result.productMatches);
                 document.querySelector('#website').textContent = result.domain;
-                copyTextToClipboard(JSON.stringify(result.productMatches));
-                element.display(result.productMatches);
+                copyTextToClipboard(JSON.stringify(products));
+                element.display(products);
             })
         }
     });
+}
+
+function productRepresentation(productMatches) {
+    const products = {};
+    for (let [key, value] of Object.entries(productMatches)) {
+        products[key] = {
+            category: value.product.category,
+            urls: value.urls
+        };
+    }
+    return products;
 }
 
 function getHostName(href) {
