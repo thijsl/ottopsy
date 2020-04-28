@@ -3,6 +3,7 @@
 import {Product} from "./Product";
 import {Util} from "./Util";
 import {ChromeExtension} from "./ChromeExtension";
+import {Website} from "./Website";
 
 export class App {
 
@@ -53,60 +54,32 @@ export class App {
         return currentInitiator;
     }
 
-    createWebsiteIfNeeded(initiators, initiator, product) {
-        if (!this.websites[initiator]) {
-            this.websites[initiator] = {};
-        }
-        if (!this.websites[initiator][product.category]) {
-            this.websites[initiator][product.category] = {};
-        }
-        if (!this.websites[initiator][product.category][product.name]) {
-            this.websites[initiator][product.category][product.name] = {status: 'unknown', url: []};
-        }
+    getWebsite(websiteDomain) {
+         if (!this.websites[websiteDomain]) {
+             this.websites[websiteDomain] = new Website(websiteDomain);
+         }
+         return this.websites[websiteDomain];
     }
 
-    isUrlNotYetAdded(initiators, initiator, product, url) {
-        return (this.websites[initiator][product.category][product.name].url.indexOf(url) < 0);
-    }
-
-    process(website, webRequestUrl) {
+    process(websiteDomain, webRequestUrl) {
         this.products.forEach((product) => {
             if (product.isMatch(webRequestUrl)) {
-                this.createWebsiteIfNeeded(this.websites, website, product);
-                this.websites[website][product.category][product.name].status = true;
-                if (this.isUrlNotYetAdded(this.websites, website, product, webRequestUrl)) {
-                    if (this.websites[website][product.category][product.name].url.length < 10) {
-                        this.websites[website][product.category][product.name].url.push(webRequestUrl);
-                        chrome.storage.local.set({comps: this.websites}, function () {
-                            console.log('Updated components:', product.name, webRequestUrl);
+                const website = this.getWebsite(websiteDomain);
+                const productMatchAdded = website.addProductMatch(product, webRequestUrl);
+                if (productMatchAdded) {
+                    chrome.storage.local.set({comps: this.websites}, function () {
+                        console.log('Updated components:', product.name, webRequestUrl);
+                    });
+
+                    if (product.isAbrProtocol()) {
+                        website.findPackager(this.products, webRequestUrl, (packager) => {
+                            chrome.storage.local.set({comps: this.websites}, function () {
+                                console.log('Updated components:', product.name, "with", packager.name, "for", webRequestUrl);
+                            });
                         });
                     }
-
-                    if (product.name == "dash" || product.name == "hls") {
-                        fetch(webRequestUrl)
-                            .then((response) => {
-                                return response.text();
-                            })
-                            .then((text) => {
-                                const packagers = Product.getProductsByCategory(this.products, "packager");
-                                packagers.forEach((packager) => {
-                                    const packagerMatch = packager.isMatch(text);
-                                    if (packagerMatch) {
-                                        if (!this.websites[website].packager) {
-                                            this.websites[website].packager = {};
-                                        }
-                                        this.websites[website].packager[[packager.name]] = {"status": true};
-                                        chrome.storage.local.set({comps: this.websites}, function () {
-                                            console.log('Updated components:', product.name, "with", packager.name, "for", webRequestUrl);
-                                        });
-                                    }
-                                });
-                            });
-                    }
-
                 }
             }
         });
-
     };
 }

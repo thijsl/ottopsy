@@ -11,6 +11,9 @@ export class Product {
         }
         return match;
     }
+    isAbrProtocol() {
+        return (this.category == "abrProtocol");
+    }
     static initProducts(json) {
         const products = [];
         for (let i = 0; i < json.length; i++) {
