@@ -37,4 +37,19 @@ export class Website {
             });
     }
 
+    static getRootWebsite(websites, details) {
+        let currentParentId = details.parentFrameId;
+        let currentInitiator = details.initiator;
+        while (currentParentId != -1) {
+            details = websites[currentParentId];
+            if (details) {
+                currentParentId = details.parentFrameId;
+                currentInitiator = details.initiator;
+            } else {
+                currentParentId = -1;
+            }
+        }
+        return currentInitiator;
+    }
+
 }

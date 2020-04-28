@@ -32,26 +32,10 @@ export class App {
                 initiator: details.initiator,
                 parentFrameId: details.parentFrameId
             };
-            const website = Util.getHostName(this.getRootWebsite(details));
+            const website = Util.getHostName(Website.getRootWebsite(this.websites, details));
             this.process(website, webRequestUrl);
         };
         chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeRequestListener, {urls: ["<all_urls>"]});
-    }
-
-    getRootWebsite(details) {
-        let currentParentId = details.parentFrameId;
-        let currentInitiator = details.initiator;
-        while (currentParentId != -1) {
-            details = this.allWebsites[currentParentId];
-            if (details) {
-                currentParentId = details.parentFrameId;
-                currentInitiator = details.initiator;
-            } else {
-                console.warn("details is undefined at", currentParentId, this.allWebsites);
-                currentParentId = -1;
-            }
-        }
-        return currentInitiator;
     }
 
     getWebsite(websiteDomain) {
