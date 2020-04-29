@@ -1,6 +1,8 @@
 # Summary
 TL;DR: OTTopsy is like BuiltWith.com, but dissect a website's OTT components through a Chrome extension.
 
+![alt text](preview.png "Preview of OTTopsy")
+
 browser-ott-dissection is a Chrome extension. If you click the extension, and press the 'analyze' button,
 the extension dissects the current (OTT) web page and presents:
 - The video player,
