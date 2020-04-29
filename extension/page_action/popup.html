@@ -10,12 +10,21 @@
             width: 500px;
             overflow: auto;
         }
+
+        .sort {
+            color: #c37d7d;
+            margin-top: 5px;
+            display: block;
+            font-size: 0.8em;
+        }
     </style>
+    <script src="fontawesome.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <strong>OTT products for <span id="website"></span></strong>
 <script src="ui-treeview.js"></script>
-<script src="popup.js"></script>
 <ui-treeview></ui-treeview>
+<span class="sort"><i class="fas fa-filter"></i> Sort by Category</span>
+<script src="popup.js"></script>
 </body>
 </html>
