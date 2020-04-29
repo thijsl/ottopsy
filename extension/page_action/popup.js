@@ -7,6 +7,7 @@ let productMatches;
 let sortByProduct = true;
 
 function loadDataInPopup() {
+    const sortElement = document.querySelector('.sort');
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         chrome.tabs.executeScript(
             tabs[0].id,
@@ -19,11 +20,23 @@ function loadDataInPopup() {
                 const element = document.querySelector('ui-treeview');
                 const result = data['comps'][getHostName(tab.url)];
                 if (result) {
-                    productMatches = result.productMatches;
-                    products = productRepresentation(productMatches);
                     document.querySelector('#website').textContent = result.domain;
-                    copyTextToClipboard(JSON.stringify(products));
-                    element.display(products);
+                    productMatches = result.productMatches;
+                    chrome.storage.local.get('sortByCategory', function (data2) {
+                        const sortByCategoryLocal = data2.sortByCategory;
+                        sortByProduct = !sortByCategoryLocal;
+                        if (sortByCategoryLocal) {
+                            products = categoryRepresentation(productMatches);
+                            sortElement.innerHTML = '<i class="fas fa-filter"></i> Sort by Product</span>';
+                        } else {
+                            products = productRepresentation(productMatches);
+                            sortElement.innerHTML = '<i class="fas fa-filter"></i> Sort by Category</span>';
+                        }
+                        copyTextToClipboard(JSON.stringify(products));
+
+                        element.display(products);
+                    });
+
                 }
             })
         }
@@ -77,6 +90,7 @@ function attachSortListener() {
     if (sortElement) {
         sortElement.addEventListener('click', function (e) {
             sortByProduct = !sortByProduct;
+            chrome.storage.local.set({sortByCategory: !sortByProduct});
             let products;
             if (!sortByProduct) {
                 products = categoryRepresentation(productMatches);
