@@ -31,7 +31,6 @@ It doesn't work -- what do I do?
 - Try to re-install it. E-mail lowette@gmail.com if that doesn't help.
 
 What are the next feature improvements?
-- Represent results per category instead of per product.
 - Only track requests on a page where the extension button has been explicitly clicked.
 - Identify an analytics system through it's periodical ping.
 - Dissect HLS and DASH manifest.
