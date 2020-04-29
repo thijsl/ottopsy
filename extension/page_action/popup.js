@@ -22,10 +22,9 @@ function loadDataInPopup() {
                 if (result) {
                     document.querySelector('#website').textContent = result.domain;
                     productMatches = result.productMatches;
-                    chrome.storage.local.get('sortByCategory', function (data2) {
-                        const sortByCategoryLocal = data2.sortByCategory;
-                        sortByProduct = !sortByCategoryLocal;
-                        if (sortByCategoryLocal) {
+                    chrome.storage.local.get('sortByProduct', function (data2) {
+                        sortByProduct = data2.sortByProduct;
+                        if (!sortByProduct) {
                             products = categoryRepresentation(productMatches);
                             sortElement.innerHTML = '<i class="fas fa-filter"></i> Sort by Product</span>';
                         } else {
@@ -33,7 +32,6 @@ function loadDataInPopup() {
                             sortElement.innerHTML = '<i class="fas fa-filter"></i> Sort by Category</span>';
                         }
                         copyTextToClipboard(JSON.stringify(products));
-
                         element.display(products);
                     });
 
@@ -90,7 +88,7 @@ function attachSortListener() {
     if (sortElement) {
         sortElement.addEventListener('click', function (e) {
             sortByProduct = !sortByProduct;
-            chrome.storage.local.set({sortByCategory: !sortByProduct});
+            chrome.storage.local.set({sortByProduct: sortByProduct});
             let products;
             if (!sortByProduct) {
                 products = categoryRepresentation(productMatches);
