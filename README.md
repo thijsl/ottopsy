@@ -36,3 +36,5 @@ What are the next feature improvements?
 - Dissect HLS and DASH manifest.
 - Extract version number of components.
  
+ Is there a video illustrating the installation and usage of OTTopsy?
+ * Yep! Check out [installation_and_usage_of_ottopsy.mp4](installation_and_usage_of_ottopsy.mp4).
