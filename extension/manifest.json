@@ -1,7 +1,7 @@
 {
-  "name": "ottopsy",
+  "name": "product-watcher",
   "version": "0.0.1",
-  "description": "Dissect the OTT solution",
+  "description": "Detect products in a website by providing a custom set of products and patterns through a JSON file.",
   "permissions": [
     "tabs",
     "activeTab",
@@ -32,6 +32,6 @@
   },
   "manifest_version": 2,
   "web_accessible_resources": [
-      "data/patterns.json"
+      "data/products.json"
   ]
 }

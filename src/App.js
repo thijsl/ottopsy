@@ -12,7 +12,7 @@ export class App {
         this.products = [];
         this.websites = {};
         this.allWebsites = {};
-        this.productsDatabaseUrl = chrome.runtime.getURL("data/patterns.json");
+        this.productsDatabaseUrl = chrome.runtime.getURL("data/products.json");
         this.initProductsAndWebsites();
     }
 

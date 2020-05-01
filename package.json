@@ -1,5 +1,5 @@
 {
-  "name": "ottopsy",
+  "name": "product-watcher",
   "version": "0.0.1",
   "scripts": {
     "build-dev": "node_modules/.bin/webpack",
