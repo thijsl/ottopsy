@@ -27,7 +27,7 @@ function getDefaultProducts() {
 
 function loadDataInPopup() {
     const sortElement = document.querySelector('.sort');
-    updateProductsRender(getDefaultProducts())
+    updateProductsRender(getDefaultProducts());
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         chrome.tabs.executeScript(
             tabs[0].id,

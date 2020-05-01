@@ -1,9 +1,12 @@
 export class Product {
     constructor(product, categories) {
+        this.id = product.id;
         this.name = product.name;
         this.patterns = product.patterns;
         this.categoryId = product.categoryId;
-        this.category = Product.getCategoryById(this.categoryId, categories)
+        this.category = Product.getCategoryById(this.categoryId, categories);
+        this.disabled = product.disabled;
+        this.checkResponseWithOtherProductIds = product.checkResponseWithOtherProductIds;
     }
     isMatch(url) {
         let match = false;
@@ -21,8 +24,17 @@ export class Product {
         }
         return match;
     }
-    isAbrProtocol() {
-        return (this.categoryId == "2");
+    getResponseBodyProducts(products) {
+        let responseBodyProducts = null;
+        if (this.checkResponseWithOtherProductIds && (this.checkResponseWithOtherProductIds.length > 1)) {
+            responseBodyProducts = [];
+            for (let i = 0; i < products.length; i++) {
+                if (this.checkResponseWithOtherProductIds.indexOf(products[i].id) > -1) {
+                    responseBodyProducts.push(products[i]);
+                }
+            }
+        }
+        return responseBodyProducts;
     }
     static getCategoryById(categoryId, categories) {
         let category = "not-found";
@@ -43,8 +55,5 @@ export class Product {
             }
         }
         return products;
-    }
-    static getProductsByCategory(products, category) {
-        return products.filter((product) => {return (product.category.toLowerCase() == category.toLowerCase())})
     }
 }

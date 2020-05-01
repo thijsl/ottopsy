@@ -1,5 +1,4 @@
 import {ProductMatch} from "./ProductMatch";
-import {Product} from "./Product";
 
 export class Website {
 
@@ -20,18 +19,17 @@ export class Website {
         return productMatch.addUrl(webRequestUrl);
     }
 
-    findPackager(products, webRequestUrl, cb) {
+    checkResponse(products, webRequestUrl, cb) {
         fetch(webRequestUrl)
             .then((response) => {
                 return response.text();
             })
             .then((text) => {
-                const packagers = Product.getProductsByCategory(products, "packager");
-                packagers.forEach((packager) => {
-                    const packagerMatch = packager.isResponseBodyMatch(text);
+                products.forEach((product) => {
+                    const packagerMatch = product.isResponseBodyMatch(text);
                     if (packagerMatch) {
-                        this.addProductMatch(packager, "N/A");
-                        cb(packager);
+                        this.addProductMatch(product, webRequestUrl);
+                        cb(product);
                     }
                 });
             });

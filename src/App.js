@@ -56,12 +56,14 @@ export class App {
                         console.log('Updated components:', product.name, webRequestUrl);
                     });
 
-                    if (product.isAbrProtocol()) {
-                        website.findPackager(this.products, webRequestUrl, (packager) => {
+                    let responseBodyProducts = product.getResponseBodyProducts(this.products);
+                    if (responseBodyProducts) {
+                        website.checkResponse(responseBodyProducts, webRequestUrl, (packager) => {
                             chrome.storage.local.set({comps: this.websites}, function () {
                                 console.log('Updated components:', product.name, "with", packager.name, "for", webRequestUrl);
                             });
                         });
+
                     }
                 }
             }
