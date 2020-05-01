@@ -34,7 +34,6 @@ It doesn't work -- what do I do?
 - Try to re-install it. E-mail lowette@gmail.com if that doesn't help.
 
 What are the next feature improvements?
-- Build /extension/page_action/ files through webpack.
 - Overwrite products.json through GUI.
 - Link to Github in GUI.
  
