@@ -35,6 +35,8 @@ It doesn't work -- what do I do?
 
 What are the next feature improvements?
 - Build /extension/page_action/ files through webpack.
+- Overwrite products.json through GUI.
+- Link to Github in GUI.
  
  Is there a video illustrating the installation and usage of product-watcher?
  * Yep! Check out [installation_and_usage_of_product-watcher.mp4](installation_and_usage_of_product-watcher.mp4).
