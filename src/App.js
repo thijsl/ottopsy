@@ -20,7 +20,8 @@ export class App {
          fetch(this.productsDatabaseUrl)
             .then((response) => response.json()) //assuming file contains json
             .then((json) => {
-                this.products = Product.initProducts(json);
+                this.products = Product.initProducts(json.products, json.categories);
+                this.categories = json.categories;
                 this.initWebsiteRequestListeners();
             });
     }

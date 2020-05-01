@@ -28,7 +28,7 @@ export class Website {
             .then((text) => {
                 const packagers = Product.getProductsByCategory(products, "packager");
                 packagers.forEach((packager) => {
-                    const packagerMatch = packager.isMatch(text);
+                    const packagerMatch = packager.isResponseBodyMatch(text);
                     if (packagerMatch) {
                         this.addProductMatch(packager, "N/A");
                         cb(packager);

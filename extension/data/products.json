@@ -1,19 +1,52 @@
-[
-   {
-      "name": "player",
-      "types": [
-         {
-            "name": "hls.js",
-            "patterns": [
+{
+   "products": [
+      {
+         "id": "0",
+         "name": "Product 0",
+         "categoryId": "0",
+         "patterns": {
+            "network": [
+               {
+                  "key": "this-value-will-be-matched-to-network-requests",
+                  "weight": 0.1
+               }
+            ],
+            "dom": [
+               {
+                  "key": "this-value-will-be-matched-to-the-DOM",
+                  "weight": 0.1
+               }
+            ],
+            "responseBody": [
+               {
+                  "key": "this-value-will-be-matched-to-a-network-response"
+               }
+            ]
+         },
+         "checkResponseWithOtherProductIds": [
+            "12345"
+         ],
+         "disabled": true
+      },
+      {
+         "id": "1",
+         "name": "hls.js",
+         "categoryId": "1",
+         "patterns": {
+            "network": [
                {
                   "key": "hls.js",
                   "weight": 0.8
                }
             ]
-         },
-         {
-            "name": "THEOplayer",
-            "patterns": [
+         }
+      },
+      {
+         "id": "2",
+         "name": "THEOplayer",
+         "categoryId": "1",
+         "patterns": {
+            "network": [
                {
                   "key": "THEOplayer",
                   "weight": 0.5
@@ -23,19 +56,27 @@
                   "weight": 0.7
                }
             ]
-         },
-         {
-            "name": "dash.js",
-            "patterns": [
+         }
+      },
+      {
+         "id": "3",
+         "name": "dash.js",
+         "categoryId": "1",
+         "patterns": {
+            "network": [
                {
                   "key": "dash.js",
                   "weight": 0.8
                }
             ]
-         },
-         {
-            "name": "Bitmovin",
-            "patterns": [
+         }
+      },
+      {
+         "id": "4",
+         "name": "Bitmovin",
+         "categoryId": "1",
+         "patterns": {
+            "network": [
                {
                   "key": "bitmovin",
                   "weight": 0.5
@@ -45,10 +86,14 @@
                   "value": 0.7
                }
             ]
-         },
-         {
-            "name": "Shaka",
-            "patterns": [
+         }
+      },
+      {
+         "id": "5",
+         "name": "Shaka",
+         "categoryId": "1",
+         "patterns": {
+            "network": [
                {
                   "key": "shaka",
                   "weight": 0.5
@@ -58,28 +103,40 @@
                   "value": 0.7
                }
             ]
-         },
-         {
-            "name": "JW Player",
-            "patterns": [
+         }
+      },
+      {
+         "id": "6",
+         "name": "JW Player",
+         "categoryId": "1",
+         "patterns": {
+            "network": [
                {
                   "key": "jwplayer",
                   "weight": 0.5
                }
             ]
-         },
-         {
-            "name": "Video.js",
-            "patterns": [
+         }
+      },
+      {
+         "id": "7",
+         "name": "Video.js",
+         "categoryId": "1",
+         "patterns": {
+            "network": [
                {
                   "key": "video.js",
                   "weight": 0.5
                }
             ]
-         },
-         {
-            "name": "Kwikplayer",
-            "patterns": [
+         }
+      },
+      {
+         "id": "8",
+         "name": "Kwikplayer",
+         "categoryId": "1",
+         "patterns": {
+            "network": [
                {
                   "key": "player.kwikmotion.com",
                   "weight": 0.8
@@ -89,33 +146,40 @@
                   "weight": 0.5
                }
             ]
-         },
-         {
-            "name": "Mangomolo",
-            "patterns": [
+         }
+      },
+      {
+         "id": "9",
+         "name": "Mangomolo",
+         "categoryId": "1",
+         "patterns": {
+            "network": [
                {
                   "key": "mangomolo",
                   "weight": 0.8
                }
             ]
-         },
-         {
-            "name": "MediaElementJS",
-            "patterns": [
+         }
+      },
+      {
+         "id": "10",
+         "name": "MediaElementJS",
+         "categoryId": "1",
+         "patterns": {
+            "network": [
                {
                   "key": "mediaelement",
                   "weight": 0.8
                }
             ]
          }
-      ]
-   },
-   {
-      "name": "abrProtocol",
-      "types": [
-         {
-            "name": "hls",
-            "patterns": [
+      },
+      {
+         "id": "11",
+         "name": "hls",
+         "categoryId": "2",
+         "patterns": {
+            "network": [
                {
                   "key": "m3u",
                   "weight": 0.6
@@ -126,9 +190,14 @@
                }
             ]
          },
-         {
-            "name": "dash",
-            "patterns": [
+         "checkResponseWithOtherProductIds": []
+      },
+      {
+         "id": "12",
+         "name": "dash",
+         "categoryId": "2",
+         "patterns": {
+            "network": [
                {
                   "key": "mpd",
                   "weight": 0.6
@@ -138,15 +207,15 @@
                   "weight": 0.8
                }
             ]
-         }
-      ]
-   },
-   {
-      "name": "analytics",
-      "types": [
-         {
-            "name": "conviva",
-            "patterns": [
+         },
+         "checkResponseWithOtherProductIds": []
+      },
+      {
+         "id": "13",
+         "name": "conviva",
+         "categoryId": "3",
+         "patterns": {
+            "network": [
                {
                   "key": "conviva",
                   "weight": 0.6
@@ -156,155 +225,209 @@
                   "weight": 0.8
                }
             ]
-         },
-         {
-            "name": "youbora",
-            "patterns": [
+         }
+      },
+      {
+         "id": "14",
+         "name": "youbora",
+         "categoryId": "3",
+         "patterns": {
+            "network": [
                {
                   "key": "youbora",
                   "weight": 0.8
                }
             ]
-         },
-         {
-            "name": "StreamOne",
-            "patterns": [
+         }
+      },
+      {
+         "id": "15",
+         "name": "StreamOne",
+         "categoryId": "3",
+         "patterns": {
+            "network": [
                {
                   "key": "analytics.streamone.net",
                   "weight": 0.8
                }
             ]
-         },
-         {
-            "name": "Google Analytics",
-            "patterns": [
+         }
+      },
+      {
+         "id": "16",
+         "name": "Google Analytics",
+         "categoryId": "3",
+         "patterns": {
+            "network": [
                {
                   "key": "google-analytics.com/collect",
                   "weight": 0.3
                }
             ]
-         },
-         {
-            "name": "Mux",
-            "patterns": [
+         }
+      },
+      {
+         "id": "17",
+         "name": "Mux",
+         "categoryId": "3",
+         "patterns": {
+            "network": [
                {
                   "key": "mux.com",
                   "weight": 0.7
                }
             ]
-         },
-         {
-            "name": "MediaMelon",
-            "patterns": [
+         }
+      },
+      {
+         "id": "18",
+         "name": "MediaMelon",
+         "categoryId": "3",
+         "patterns": {
+            "network": [
                {
                   "key": "mediamelon",
                   "weight": 0.3
                }
             ]
-         },
-         {
-            "name": "Adobe Heartbeat",
-            "patterns": [
+         }
+      },
+      {
+         "id": "19",
+         "name": "Adobe Heartbeat",
+         "categoryId": "3",
+         "patterns": {
+            "network": [
                {
                   "key": "omtrdc.net",
                   "weight": 0.6
                }
             ]
-         },
-         {
-            "name": "Chartbeat",
-            "patterns": [
+         }
+      },
+      {
+         "id": "20",
+         "name": "Chartbeat",
+         "categoryId": "3",
+         "patterns": {
+            "network": [
                {
                   "key": "chartbeat.net",
                   "weight": 0.6
                }
             ]
-         },
-         {
-            "name": "Ooyala",
-            "patterns": [
+         }
+      },
+      {
+         "id": "21",
+         "name": "Ooyala",
+         "categoryId": "3",
+         "patterns": {
+            "network": [
                {
                   "key": "ooyala.com",
                   "weight": 0.5
                }
             ]
-         },
-         {
-           "name": "Nielsen",
-           "patterns": [
-             {
-               "key": "imrworldwide.com",
-               "weight": 0.7
-             }
-           ]
-         },
-         {
-            "name": "onthe.io",
-            "patterns": [
+         }
+      },
+      {
+         "id": "22",
+         "name": "Nielsen",
+         "categoryId": "3",
+         "patterns": {
+            "network": [
+               {
+                  "key": "imrworldwide.com",
+                  "weight": 0.7
+               }
+            ]
+         }
+      },
+      {
+         "id": "23",
+         "name": "onthe.io",
+         "categoryId": "3",
+         "patterns": {
+            "network": [
                {
                   "key": "onthe.io",
                   "weight": 0.7
                }
             ]
-         },
-         {
-            "name": "Krux",
-            "patterns": [
+         }
+      },
+      {
+         "id": "24",
+         "name": "Krux",
+         "categoryId": "3",
+         "patterns": {
+            "network": [
                {
                   "key": "krxd.net",
                   "weight": 0.8
                }
             ]
          }
-      ]
-   },
-   {
-      "name": "ads",
-      "types": [
-         {
-            "name": "dfp",
-            "patterns": [
+      },
+      {
+         "id": "25",
+         "name": "dfp",
+         "categoryId": "4",
+         "patterns": {
+            "network": [
                {
                   "key": "pubads.g.doubleclick.net",
                   "weight": 0.8
                }
             ]
-         },
-         {
-            "name": "spotx",
-            "patterns": [
+         }
+      },
+      {
+         "id": "26",
+         "name": "spotx",
+         "categoryId": "4",
+         "patterns": {
+            "network": [
                {
                   "key": "spotxchange",
                   "weight": 0.8
                }
             ]
-         },
-         {
-            "name": "yospace",
-            "patterns": [
+         }
+      },
+      {
+         "id": "27",
+         "name": "yospace",
+         "categoryId": "4",
+         "patterns": {
+            "network": [
                {
                   "key": "yospace",
                   "weight": 0.8
                }
             ]
-         },
-         {
-            "name": "freewheel",
-            "patterns": [
+         }
+      },
+      {
+         "id": "28",
+         "name": "freewheel",
+         "categoryId": "4",
+         "patterns": {
+            "network": [
                {
                   "key": "fwmrm",
                   "weight": 0.8
                }
             ]
          }
-      ]
-   },
-   {
-      "name": "drm",
-      "types": [
-         {
-            "name": "widevine",
-            "patterns": [
+      },
+      {
+         "id": "29",
+         "name": "widevine",
+         "categoryId": "5",
+         "patterns": {
+            "network": [
                {
                   "key": "wvdrm",
                   "weight": 0.6
@@ -318,10 +441,14 @@
                   "weight": 0.8
                }
             ]
-         },
-         {
-            "name": "playready",
-            "patterns": [
+         }
+      },
+      {
+         "id": "30",
+         "name": "playready",
+         "categoryId": "5",
+         "patterns": {
+            "network": [
                {
                   "key": "prdrm",
                   "weight": 0.6
@@ -335,10 +462,14 @@
                   "weight": 0.8
                }
             ]
-         },
-         {
-            "name": "fairplay",
-            "patterns": [
+         }
+      },
+      {
+         "id": "31",
+         "name": "fairplay",
+         "categoryId": "5",
+         "patterns": {
+            "network": [
                {
                   "key": "fpdrm",
                   "weight": 0.6
@@ -352,10 +483,14 @@
                   "weight": 0.8
                }
             ]
-         },
-         {
-            "name": "buydrm",
-            "patterns": [
+         }
+      },
+      {
+         "id": "32",
+         "name": "buydrm",
+         "categoryId": "5",
+         "patterns": {
+            "network": [
                {
                   "key": "keyos",
                   "weight": 0.8
@@ -365,37 +500,53 @@
                   "weight": 0.8
                }
             ]
-         },
-         {
-            "name": "ezdrm",
-            "patterns": [
+         }
+      },
+      {
+         "id": "33",
+         "name": "ezdrm",
+         "categoryId": "5",
+         "patterns": {
+            "network": [
                {
                   "key": "ezdrm.com",
                   "weight": 0.8
                }
             ]
-         },
-         {
-            "name": "conax",
-            "patterns": [
+         }
+      },
+      {
+         "id": "34",
+         "name": "conax",
+         "categoryId": "5",
+         "patterns": {
+            "network": [
                {
                   "key": "conax.com",
                   "weight": 0.8
                }
             ]
-         },
-         {
-            "name": "irdeto",
-            "patterns": [
+         }
+      },
+      {
+         "id": "35",
+         "name": "irdeto",
+         "categoryId": "5",
+         "patterns": {
+            "network": [
                {
                   "key": "irdeto",
                   "weight": 0.5
                }
             ]
-         },
-         {
-            "name": "azure",
-            "patterns": [
+         }
+      },
+      {
+         "id": "36",
+         "name": "azure",
+         "categoryId": "5",
+         "patterns": {
+            "network": [
                {
                   "key": "windows.net",
                   "weight": 0.7
@@ -405,80 +556,142 @@
                   "weight": 0.7
                }
             ]
-         },
-         {
-            "name": "drmtoday",
-            "patterns": [
+         }
+      },
+      {
+         "id": "37",
+         "name": "drmtoday",
+         "categoryId": "5",
+         "patterns": {
+            "network": [
                {
                   "key": "drmtoday.com",
                   "weight": 0.8
                }
             ]
-         },
-         {
-            "name": "xstream",
-            "patterns": [
+         }
+      },
+      {
+         "id": "38",
+         "name": "xstream",
+         "categoryId": "5",
+         "patterns": {
+            "network": [
                {
                   "key": "xstream.dk",
                   "weight": 0.8
                }
             ]
-         },
-         {
-            "name": "intertrust",
-            "patterns": [
+         }
+      },
+      {
+         "id": "39",
+         "name": "intertrust",
+         "categoryId": "5",
+         "patterns": {
+            "network": [
                {
                   "key": "intertrust",
                   "weight": 0.8
                }
             ]
-         },
-         {
-            "name": "axinom",
-            "patterns": [
+         }
+      },
+      {
+         "id": "40",
+         "name": "axinom",
+         "categoryId": "5",
+         "patterns": {
+            "network": [
                {
                   "key": "axinom.com",
                   "weight": 0.8
                }
             ]
          }
-      ]
-   },
-   {
-      "name": "packager",
-      "types": [
-         {
-            "name": "Ericsson",
-            "patterns": [
+      },
+      {
+         "id": "41",
+         "name": "Ericsson",
+         "categoryId": "6",
+         "patterns": {
+            "network": [
                {
                   "key": "vspp",
                   "weight": 0.8
                }
             ]
-         },
-         {
-            "name": "USP",
-            "patterns": [
+         }
+      },
+      {
+         "id": "42",
+         "name": "USP",
+         "categoryId": "6",
+         "patterns": {
+            "responseBody": [
                {
                   "key": "Unified Streaming Platform",
                   "weight": 0.8
                }
             ]
          }
-      ]
-   },
-   {
-      "name": "cdn",
-      "types": [
-         {
-            "name": "akamai",
-            "patterns": [
+      },
+      {
+         "id": "43",
+         "name": "akamai",
+         "categoryId": "7",
+         "patterns": {
+            "network": [
                {
                   "key": "akamai",
                   "weight": 0.8
                }
             ]
          }
-      ]
-   }
-]
+      }
+
+   ],
+   "categories": [
+      {
+         "id": "0",
+         "name": "Category 0",
+         "parentId": null,
+         "disabled": true
+      },
+      {
+         "id": "1",
+         "name": "Player",
+         "parentId": null
+      },
+      {
+         "id": "2",
+         "name": "ABR Protocol",
+         "parentId": null
+      },
+      {
+         "id": "3",
+         "name": "Analytics",
+         "parentId": null
+      },
+      {
+         "id": "4",
+         "name": "Ads",
+         "parentId": null
+      },
+      {
+         "id": "5",
+         "name": "DRM",
+         "parentId": null
+      },
+      {
+         "id": "6",
+         "name": "Packager",
+         "parentId": null
+      },
+      {
+         "id": "7",
+         "name": "CDN",
+         "parentId": null
+      }
+   ]
+}
