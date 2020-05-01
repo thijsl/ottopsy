@@ -6,8 +6,28 @@ let products;
 let productMatches;
 let sortByProduct = true;
 
+function getProductsRenderingElement() {
+    return document.querySelector('ui-treeview');
+}
+function updateProductsRender(products) {
+    getProductsRenderingElement().display(products);
+}
+function getDefaultProducts() {
+    return {
+        "Product matches": {
+            "Amount": "0",
+            "Reason": ["No patterns in products.json were recognized for this website."],
+            "Tips": [
+                "Add more products and/or patterns to products.json.",
+                "Perhaps this website is not relevant to this extension?"
+            ]
+        }
+    };
+}
+
 function loadDataInPopup() {
     const sortElement = document.querySelector('.sort');
+    updateProductsRender(getDefaultProducts())
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         chrome.tabs.executeScript(
             tabs[0].id,
@@ -17,24 +37,25 @@ function loadDataInPopup() {
         const tab = tabs[0];
         if (tab && tab.url) {
             chrome.storage.local.get('comps', function (data) {
-                const element = document.querySelector('ui-treeview');
-                const result = data['comps'][getHostName(tab.url)];
-                if (result) {
-                    document.querySelector('#website').textContent = result.domain;
-                    productMatches = result.productMatches;
-                    chrome.storage.local.get('sortByProduct', function (data2) {
-                        sortByProduct = data2.sortByProduct;
-                        if (!sortByProduct) {
-                            products = categoryRepresentation(productMatches);
-                            sortElement.innerHTML = '<i class="fas fa-filter"></i> Sort by Product</span>';
-                        } else {
-                            products = productRepresentation(productMatches);
-                            sortElement.innerHTML = '<i class="fas fa-filter"></i> Sort by Category</span>';
-                        }
-                        copyTextToClipboard(JSON.stringify(products));
-                        element.display(products);
-                    });
+                document.querySelector('#website').textContent = getHostName(tab.url);
+                if (data && data['comps']) {
+                    const result = data['comps'][getHostName(tab.url)];
+                    if (result) {
+                        productMatches = result.productMatches;
+                        chrome.storage.local.get('sortByProduct', function (data2) {
+                            sortByProduct = data2.sortByProduct;
+                            if (!sortByProduct) {
+                                products = categoryRepresentation(productMatches);
+                                sortElement.innerHTML = '<i class="fas fa-filter"></i> Sort by Product</span>';
+                            } else {
+                                products = productRepresentation(productMatches);
+                                sortElement.innerHTML = '<i class="fas fa-filter"></i> Sort by Category</span>';
+                            }
+                            copyTextToClipboard(JSON.stringify(products));
+                            updateProductsRender(products);
+                        });
 
+                    }
                 }
             })
         }
