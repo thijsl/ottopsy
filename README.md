@@ -34,10 +34,7 @@ It doesn't work -- what do I do?
 - Try to re-install it. E-mail lowette@gmail.com if that doesn't help.
 
 What are the next feature improvements?
-- Create a flatter structure instead of a nested structure of products.json.
 - Build /extension/page_action/ files through webpack.
-- Make the extension more generic and not specific to OTT.
-Create a template for products.json, and use OTT as an example.
  
  Is there a video illustrating the installation and usage of product-watcher?
  * Yep! Check out [installation_and_usage_of_product-watcher.mp4](installation_and_usage_of_product-watcher.mp4).
