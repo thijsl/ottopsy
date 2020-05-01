@@ -31,10 +31,12 @@ It doesn't work -- what do I do?
 - Try to re-install it. E-mail lowette@gmail.com if that doesn't help.
 
 What are the next feature improvements?
-- Only track requests on a page where the extension button has been explicitly clicked.
-- Identify an analytics system through it's periodical ping.
-- Dissect HLS and DASH manifest.
-- Extract version number of components.
+- Show a useful message instead of an error if no product matches are found.
+- Rename patterns.json to products.json, and create a flatter structure instead of a nested structure.
+- Build /extension/page_action/ files through webpack.
+- Make the extension more generic and not specific to OTT.
+Create a template for products.json, and use OTT as an example.
+- Rebrand the app from OTTopsy to product-watcher.
  
  Is there a video illustrating the installation and usage of OTTopsy?
  * Yep! Check out [installation_and_usage_of_ottopsy.mp4](installation_and_usage_of_ottopsy.mp4).
